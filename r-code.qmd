@@ -1,0 +1,1258 @@
+---
+title: "The Topology of Cyberspace and Cybercrime Journeys: A Framework for Analyzing Online Offender Mobility"
+author: 
+  - name: Asier Moneva
+    orcid: 0000-0002-2156-0213
+    email: amoneva@nscr.nl
+    corresponding: true
+    affiliations:
+      - Netherlands Institute for the Study of Crime and Law Enforcement (NSCR)
+      - The Hague University of Applied Sciences
+  - name: Stijn Ruiter
+    orcid: 0000-0003-2872-2710
+    email: ruiter@nscr.nl
+    affiliations:
+      - Netherlands Institute for the Study of Crime and Law Enforcement (NSCR)
+      - Vrije Universiteit Amsterdam
+  - name: Wim Bernasco
+    orcid: 0000-0002-3385-0883
+    email: wbernasco@nscr.nl
+    affiliations:
+      - Netherlands Institute for the Study of Crime and Law Enforcement (NSCR)
+      - University of Amsterdam
+date: today
+date-format: iso
+abstract: "This paper introduces a novel framework for analyzing online offender mobility. Drawing on multidisciplinary insights, we extend two established criminological models for studying offline offending---the geometry of crime and crime journeys---by adapting their core concepts to cyberspace and developing a topology in which the cyber place is defined and becomes the unit of analysis. Just as offenders travel before, during, and after committing crime offline, we argue they also undertake trips before, during, and after committing cybercrime, and that like offline journeys these cybercrime journeys comprise identifiable and measurable components. We further distinguish between human journeys (what offenders perceive) and data journeys (what happens to the information they transmit). We explicitly demonstrate how concepts from the geometry of crime and crime journeys translate from offline to online crime and mobility. The proposed approach enables the systematic formulation of research questions and the measurement of behavioral patterns, facilitating the generation and accumulation of knowledge on cybercrime offending. The paper illustrates the framework’s theoretical relevance within environmental criminology and its practical application for cybercrime analysis through concrete examples, including an empirical human journey into web hacking as a proof-of-concept."
+keywords: 
+  - crime analysis
+  - crime journeys
+  - crime science
+  - cybercrime
+  - cyberspace
+  - environmental criminology
+  - offender mobility
+format: 
+  html:
+    number-sections: true
+  docx:
+    number-sections: true
+  pdf:
+    number-sections: true
+prefer-html: true
+execute: 
+  echo: false
+acknowledgements: "To Cristina Del-Real, Leiden University, for the conversations that helped sharpen some of the ideas presented here. To Thomas J. Holt, Michigan State University, for the insightful thoughts on the compatibility of the proposed framework with existing ones."
+funding: "This publication is part of the project 'How do cyber offenders commit crime online? Tracking the digital footprint of hackers' with file number 'VI.Veni.221R.024', of the research programme NWO Talent Programme Veni, which is (partly) financed by the Dutch Research Council (NWO)."
+license: "CC BY"
+bibliography: references.bib
+csl: apa-6th-edition.csl
+---
+
+```{r}
+#| label: packages
+#| include: false
+
+{
+  library (fontawesome)  # For icons
+  library (ggimage)      # For inserting icons in ggplot
+  library (ggraph)
+  library (gt)
+  library (here)
+  library (knitr)
+  library (patchwork)
+  library (renv)
+  library (tidygraph)
+  library (tidyverse)
+}
+```
+
+# Introduction
+
+Crime journeys are the sequences of trips that offenders take before, during, and after committing a crime [@bernasco2014]. These journeys have a set of components (e.g., origin, direction, distance, etc.) that can be leveraged to analyze offender mobility, and its relationship to the crime commission process [@bernasco2014; @rengert2004]. Understanding crime journeys is important for crime analysis as they help to figure out whether, where, when, how, and against what or whom crimes are committed. This, in turn, can inform crime prevention by suggesting how to hinder access to targets, and also crime detection by providing intelligence to investigators [@bernasco2014]. Crime journeys can also inform crime scripting, an analysis technique that aims to describe sequences of actions that offenders must complete before, during, and after committing a crime and, by so doing, identify possible intervention points [@cornish1993; @leclerc2017].
+
+Research on crime journeys has shown promise in addressing important criminological research questions, such as: "Where in geographical space do offenders start their journey to crime? How do offenders decide on the course of these journeys? And how do they choose the terminus, i.e. the actual criminal target?" [@elffers2004, p. 1]. While most researchers interested in this topic have focused on the journeys that lead to commit crime (i.e. the journey to crime) [@townsley2017], it should be noted that these questions also apply to journeys *from* crime [e.g. @lu2003], and to sequences of crime-related trips more broadly.
+
+Since the first journey-to-crime studies were conceived in the 1970s [for reviews see @rengert2004; @rossmo2000], crime journeys have been considered geographic by definition, as they focus on how offenders move through physical environments. Thus, questions related to how offenders navigate *online* environments have been largely ignored. *Cyber* offenders also journey to crime, but they do so online, through a cyberspace with spatio-temporal characteristics distinct from those of the geographical space. Some note that distances in cyberspace effectively disappear, since, for example, it is possible to launch a cyber attack from one part of the globe to the opposite in a short time span with minimal effort; and that places appear to be highly volatile, as they can appear online and go offline almost instantly, as if they had never existed [e.g. @grabosky2001; @yar2005].
+
+Given these spatio-temporal differences between online and offline offending, it is important to determine whether the crime journeys framework is also relevant for analyzing the online mobility of offenders, and therefore suitable to answer important research questions in criminology. Specifically, this paper aims to contribute to:
+
+1)  Theory development, by examining how and why cyberspace influences offender' choices and the resulting spatiotemporal cybercrime patterns, as well as proposing a new analytical framework to analyze online offender mobility [regardless of whether the crime is cyber-dependent, cyber-enabled, or cyber-assisted; see @mcguire2020]; and
+2)  Its practical application, by defining relevant cybercrime journey components, as well as identifying key criminological questions that this line of research can address (including how these questions differ from those traditionally explored in studies of crime journeys).
+
+The present paper is based on the premise that crime journeys are not entirely free, neither in physical space nor in cyberspace, but that they are constrained by the time available, the architecture of the environment, and resulting crime opportunities that are dependent on the situation [@brantingham1993; @ratcliffe2006]. Here we are argue that just as geography constrains offenders’ movements and decisions in physical space, the topology of cyberspace similarly shapes and limits cybercrime journeys.
+
+# Towards a geometry of cybercrime based on the topology of cyberspace
+
+The Geometry of Crime [@brantingham1981] is a framework to identify places in urban settings that are relevant to understand geographical crime patterns. This framework posits that as everyday activities unfold in particular *activity nodes* and the *paths* that connect them, people develop an *activity space*, where they spend most of their time [@brantingham1993; @brantingham1995]. What people see from their activity space becomes their *awareness space* [@brantingham1993a]. Although parts of this awareness space may never be physically traversed, they become incorporated into individuals’ mental maps, allowing them to know where these areas are and, within the limits of perception, what they look like. Over time, individuals develop patterns of activity that tend to be regular across daily, weekly, and sometimes even monthly or yearly cycles. Like other people, offenders also have their own activity spaces, where they too develop patterns of activity, both legal and illegal. The activity and awareness spaces of offenders become crime-relevant when they overlap with the spatio-temporal distribution of suitable targets for crime, whether people or objects [@brantingham1981]. As part of the crime commission process, offenders select their targets in these crime-relevant areas, and---if they become persistent offenders---over time develop mental templates for the sequence of decisions that they make in preparing and committing a crime, including travel and crime site selection [@brantingham1978]. All these concepts are the building blocks of theories on offender mobility, which crime journey researchers have applied to geographical space. However, to analyze online offender mobility, we first need analogous concepts for cyberspace.
+
+Thinking about cyberspace requires acknowledging the (at least) two layers that computer network technologies produce: the physical infrastructure and the virtual environment layered upon it [e.g. @adams1998; @batty1997; @dodge2001]. The *physical layer* is technical in nature, designed for communication between computers, and is composed of tangible elements such as wires, servers, routers, and switches. It is well-defined and primarily falls within the domain of computer science [e.g. @kurose2017]. In contrast, the *virtual layer* is social, designed to facilitate interaction between people and computers.[^1] This space, which we refer to as cyberspace, generates units of analysis that are abstract and lack concrete definition, making them a subject of interest within the geographical and social sciences [e.g. @castells2009]. Both layers are considered in this paper, but the primary focus lies on the virtual layer (i.e. cyberspace), and the criminological conceptualization of place within it.
+
+[^1]: The distinction between these physical and virtual layers broadly corresponds to the lower and upper layers of the Open Systems Interconnection (OSI) model. The physical layer aligns with layers 1-3 in the OSI model (physical, data link, and network), which handle hardware and data transmission, whereas the virtual layer relates to layers 4-7 (transport, session, presentation, and application), where human and software interactions occur [@zimmermann1980].
+
+For cyberspace topologies to be relevant for cybercrime analysis, in line with the geometry of crime, they must comprise at least the following elements: cyber places,[^2] cyber paths, and cyber spaces.
+
+[^2]: To be fully congruent with the geometry of crime, the term *cyber place* should be *cyber node*. However, given that the existing literature uses the term 'cyber place' to fit the criminology of place paradigm, and that 'nodes' have a specific meaning in computer networks, we opted to retain 'cyber places' to avoid confusion.
+
+## Cyber places
+
+For more than three decades, scholars have attempted to conceptualize cyber place with little success, as the concept has not stuck over time or across disciplines. In the 1990s, *geographers* sought to unravel the complex virtual geography of cyber spaces and places [e.g. @adams1998; @batty1997]. In one of the first attempts to establish a typology of cyber places integrating both the digital and physical perspectives of place, @batty1997 [p. 347] distinguishes between digital spaces inside computers, communication spaces between computers, and geographical places altered by digital infrastructure. Batty calls them, respectively, computer spaces or *cspaces*, cyber spaces, and cyber places, and explains that "real place and space are the driving forces, computer or cspace is necessarily a prerequisite to the communications that dominate cyberspace while the very act of use involves infrastructure that is cyber place". This definition suggests that a cyber place is composed of a combination of various cyber-physical layers, and that the physical structures, facilities, and systems are its main defining element.
+
+Another way geographers have tried to conceptualize places is on the basis of communication. If "a communication system is to communicators what a place is to its inhabitants", places can be considered virtual topologies in which the nodes are senders or receivers of communication and the edges represent the means of communication between them [@adams1998, p. 89]. In this case, the dimension of physical layers would lose relevance in favor of the dimension of virtual systems, in which senders and receivers of communication would constitute a networked cyber place. Despite important initial conceptual developments, more than three decades later, definitions from the field of geography remain abstract and difficult to operationalize, hindering further empirical research.
+
+*Computer scientists* view cyber places through a technical lens instead. From this perspective, the physical layer of cyberspace refers to the servers, routers, and switches interconnected to form the infrastructure nodes that host and route information [@kurose2017]---a definition better fitting @adams1998 conception of virtual place. From a different perspective, early studies on human-computer interaction conceptualized web pages as the nodes around which Internet navigation revolves [@cockburn1996; @tauscher1997]. In other words, people send and receive communications through cyberspace via networks and through the software contained in computer programs. This more tangible perspective contrasts with that of geographers and allows to move towards an operationalization of cyber place.
+
+For *environmental criminologists*, the concept of place is key. Places play a central role in crime analysis, as they are part of the immediate environment where offenders and their targets converge for crime to occur [@weisburd2015; @cohen1979]. Although internet infrastructure is heavily influenced by geography, the geographical location of a server or data center is rarely relevant to the analysis of the convergence necessary for cybercrime [e.g., @clarke2018; @miró-llinares2020]. Aware of this, some criminologists have developed definitions that incorporate the concept of convergence of offenders and targets online. For example, @brady2016 \[p. 137\] argue that "the networks \[where information can be retrieved and exchanged through a series of servers\] constitute a 'place' where motivated offenders can connect or illegally enter into the same network as the potential target". @miró-llinares2018 [p. 893] defined cyber places as "discrete nodes or areas of activity on the Internet where one is not physically located but can nevertheless act". Both definitions emphasize the concept of online convergence, yet they are somewhat vague in their references to "networks" and "nodes or areas of activity." Are all cyber places networks? What exactly are nodes or areas of activity?
+
+To advance scientific research on cyber places, a more precise definition is needed. Building on insights from geographers, computer scientists, and environmental criminologists, we define *cyber place* as a software program---a set of coded instructions that perform specific tasks on a computer---that is:
+
+-   Purpose-specific: serves a particular purpose, either by itself or as part of a larger system;
+-   Interactive: allows communication between people and/or people and computers---either as a sender, receiver, or both;
+-   Independent: functions on its own but may interact with other software; and
+-   Encapsulated: has boundaries in terms of functionality, features, and interface.
+
+To illustrate how this definition discriminates, @tbl-cyber-places classifies, in a motivated manner, 20 examples of digital technologies into cyber places and non-cyber places.
+
+```{r}
+#| label: tbl-cyber-places
+#| tbl-cap: Examples of cyber places and non-cyber places
+
+v_type <- c(
+  "Algorithms",
+  "Cloud storage services",
+  "Command prompts",
+  "Databases",
+  "Email services",
+  
+  "Binary files",
+  "Hardware",
+  "Mobile applications",
+  "Networks",
+  "Online forums",
+  
+  "Operating systems",
+  "Plug-ins",
+  "Programming languages",
+  "Protocols",
+  "Search engines",
+  
+  "Social media",
+  "Streaming platforms",
+  "Text processors",
+  "Video games",
+  "Websites"
+)
+
+v_example <- c(
+  "Merge Sort, Binary Search, Decision Tree",
+  "Dropbox, Google Drive, OneDrive",
+  "Windows Command Prompt, Linux Terminal, macOS Terminal",
+  "Uniform Crime Reporting Program Database, World Bank Database, The Human Genome Project Database",
+  "Gmail, Outlook, Yahoo Mail",
+  
+  ".bin files, .jpeg images, .mp3 audio files",
+  "CPUs, GPUs, Hard drives",
+  "WhatsApp, Instagram, Uber",
+  "LAN (Local Area Network), WAN (Wide Area Network), VPN (Virtual Private Network)",
+  "Reddit, Quora, Stack Overflow",
+  
+  "Windows, macOS, Linux",
+  "SelectorGadget, WordPress plug-ins, Zotero plug-in",
+  "C, Python, Java",
+  "HTTP (HyperText Transfer Protocol), FTP (File Transfer Protocol), TCP/IP (Transmission Control Protocol/Internet Protocol)",
+  "Google, Bing, DuckDuckGo",
+  
+  "Instagram, Bluesky, LinkedIn",
+  "Netflix, Spotify, YouTube",
+  "Microsoft Word, Google Docs, LibreOffice Writer",
+  "Fortnite, Call of Duty, Minecraft",
+  "Wikipedia, Amazon, Internet Archive"
+)
+
+v_issoftware <- c(
+  "check", "check", "check", "xmark", "check",
+  
+  "check", "xmark", "check", "xmark", "check",
+  
+  "check", "check", "check", "xmark", "check",
+  
+  "check", "check", "check", "check", "check"
+)
+
+v_interactive <- c(
+  "check", "check", "check", "check", "check",
+  
+  "xmark", "xmark", "check", "check", "check",
+  
+  "check", "check", "check", "check", "check",
+  
+  "check", "check", "check", "check", "check"
+)
+
+v_independent <- c(
+  "xmark", "check", "check", "xmark", "check",
+  
+  "xmark", "check", "check", "check", "check",
+  
+  "check", "xmark", "xmark", "xmark", "check",
+  
+  "check", "check", "check", "check", "check"
+)
+
+v_purposespec <- c(
+  "check", "check", "check", "check", "check",
+  
+  "check", "xmark", "check", "xmark", "check",
+  
+  "xmark", "check", "xmark", "check", "check",
+  
+  "check", "check", "check", "check", "check"
+)
+
+v_encapsulated <- c(
+  "xmark", "check", "check", "xmark", "check",
+  
+  "check", "check", "check", "xmark", "check",
+  
+  "check", "check", "xmark", "xmark", "check",
+
+  "check", "check", "check", "check", "check"
+)
+
+tibble(
+  v_type,
+  v_example,
+  v_issoftware,
+  v_purposespec,
+  v_interactive,
+  v_independent,
+  v_encapsulated
+) |>
+  mutate(
+    is_cyberplace = if_else(
+      condition = v_issoftware == "check" & v_interactive == "check" & v_independent == "check" & v_purposespec == "check" & v_encapsulated == "check",
+      true = "Yes",
+      false = "No"
+    )
+  ) |> 
+  gt() |> 
+  cols_label(
+    v_type = "Digital technology",
+    v_example = "Three examples",
+    v_issoftware = "Is software?",
+    v_interactive = "Is interactive?",
+    v_independent = "Is independent?",
+    v_purposespec = "Is purpose-specific?",
+    v_encapsulated = "Is encapsulated?",
+    is_cyberplace = "Is a cyber place?"
+  ) |> 
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_body(columns = is_cyberplace)
+  ) |> 
+  fmt_icon(columns = v_issoftware:v_encapsulated) |> 
+  cols_align(
+    columns = v_issoftware:v_encapsulated,
+    align = "center"
+  )  
+```
+
+## Cyber- activity nodes and paths
+
+The high activity places that host an individual's routine activities are called activity nodes, and the routes the individual usually travels between activity nodes are called paths [@brantingham1993]. Starting from our definition of cyber place, an analogy of these concepts can easily be drawn for cyberspace. For instance, several studies indicate that users have a clear preference for a small set of applications and websites that they visit frequently [e.g. @cockburn2001; @denadai2019; @zhao2014]. *Cyber activity nodes* would be these cyber places where a user spends a large proportion of their online time.
+
+Not all cyber places would therefore be cyber activity nodes, but all activity nodes would be cyber places interconnected via computer networks. These networks, sustained by infrastructure components such as servers, facilitate the transfer of information between cyber places---including activity nodes---and enable communication among people, computers, and between people and computers. Networks are the streets and highways of cyberspace acting as *cyber paths*. These cyber paths connect cyber places and infrastructure nodes and enable travel between them, taking two distinct forms: in the physical layer, they include wired and wireless connections like cables and satellite communication, while in the virtual layer, they manifest as user actions like clicking hyperlinks or pressing keys. For example, a classic study referred to 'paths' as the sequences of website visits [@catledge1995]. The way individuals navigate from one cyber place to another via hyperlinks, and how the information they transmit travels through the physical layer, together define their cyber journeys.
+
+## Cyber spaces {#sec-cyber-spaces}
+
+In geographical space, activity spaces are a combination of activity nodes and paths [@brantingham1993]. However, unlike in geographic space, in cyberspace people do not spend time on the paths, but wait in one cyber place until the information they want to communicate is transmitted through the path and back. Since paths do not create additional 'space' where one can spend time on, their function is to connect certain cyber places in a sequential manner. It is possible for individuals to use tools such as browsers, VPNs, and proxies to deliberately route their traffic through specific physical networks while avoiding others. However, regardless of the complexity or length of the chosen path, the connected cyber places remain the same. Therefore, *cyber activity spaces* can be defined as the most common sequences of cyber activity nodes, and will vary between individuals depending on their activity patterns.
+
+What people see from the activity spaces is their awareness space [@brantingham1993a].[^3] It is these areas in which offenders are most likely to look for their targets. In cyberspace, however, *cyber awareness spaces* have an important particularity compared to geographic ones, namely that it is not possible to look beyond the cyber place in which one is located. Cyber places are encapsulated, and unlike geographical paths, cyber paths do not allow to see through them. And although it is possible to see certain signs pointing to other cyber places (hyperlinks, hyperlinked action buttons), it is not possible to become familiar with that place until one visits it. This means that in cyberspace there is a perfect overlap between the cyber activity space and the awareness space of an individual.
+
+[^3]: It may also be possible that the awareness space is influenced by sufficient information provided by third parties, but here we only consider the original definition of awareness space.
+
+# Transdisciplinary insights into online mobility
+
+Since the 1990s, studies in fields such as information security, computer networking, and human-computer interaction have analyzed human behavior in cyberspace to shed light on online decision-making processes, including how users move between different activity nodes.
+
+In the early stages of this field, a classic study used client-side log files to examine the browsing strategies of university staff and students [@catledge1995]. The authors described the mean time between events, the length of the paths between websites, and characterized the websites based on these path lengths and the frequency of access. They also described a "spoke and hub" structure in navigation patterns [@catledge1995, p. 1070], in which users primarily operated by continuously moving back and forth within the same web domains. Shortly afterward, another study introduced a graphical software tool that allowed researchers to visualize web navigation as a network, where nodes represent websites and edges represent the traversals between pages [@cockburn1996]. Others supported this two-dimensional representation of web browsing and argued that, consistent with @catledge1995 findings, web browsing was rarely linear. Instead, much of the traffic flowed through a few hubs that acted as "branching points" [@tauscher1997, p. 101]. The disproportionate attention certain web nodes receive can be explained by a pattern of repeat visits or *revisits*, defined as "navigating to a previously visited page" [@cockburn2001, p. 909]. Studies from the late 1990s and early 2000s estimated revisit rates for certain nodes ranging from 81% [@cockburn2001], to 61% [@catledge1995], and 58% [@tauscher1997] reported in other studies. These figures indicate that users have a clear preference for a small set of frequently visited nodes along with their nearby cyber places.
+
+Subsequent studies in these and other fields expanded these insights further. A classic study recorded the online activities of eight participants from a university community as they browsed the Internet as part of their daily routines [@byrne1999]. The authors observed that the most frequent behaviors involved navigating the Internet—moving from one node to another—and configuring web browsers, while the most time was spent using the information found. Another study modeled the searching behavior of 12 Internet experts, finding that greater expertise was associated with more successful search outcomes [@hölscher2000]. Similarly, @cockburn2001 analyzed the search histories of 17 participants and found they visited an average of 42 websites daily---double or even triple the figures reported in earlier studies---highlighting the growing prominence of online activity. Their search queries were classified into three categories according to user intent: navigational, aimed at reaching a specific node; informational, aimed at retrieving information from a node, and transactional, aimed at reaching a node to find another [@broder2002]. The navigational type appeared to be the least frequent of the three, yet it allowed for more direct and therefore smoother internet navigation. Another study recorded the activity of 55 members of the university community as they completed specific online purchasing tasks [@karimi2015]. Based on whether participants had little or extensive substantive knowledge about the task, and whether their decision-making style was more or less conservative, the authors identified four types of consumers that displayed distinct behavior. These studies indicate the existence of behavioral patterns in users’ online decision-making processes as they navigate cyberspace.
+
+More recently, several studies on human (cyber) dynamics have leveraged digital trace data and location-tracking technologies to examine patterns of online and offline exploration and return behaviors, highlighting the similarities and differences between these two domains. For example, visits to websites and physical locations may be explained by two behaviors: as users visit more sites, they become less likely to explore new ones, and they tend to return more often to sites they visited early [@zhao2014]. Similarly, geographic mobility and app usage over six months show that just as people spend most of their time in a few physical locations, mobile phone time is similarly concentrated in a few apps, with exploration of new apps happening more slowly [@denadai2019]. Online exploration also appears to decay over time in a forum (Reddit), with prior mobility explaining 67% of the variance in the intention to explore new communities [@hu2019], confirming that online behavior is more repetitive than offline. Another study shows that browsing routines are highly predictable, and that users spend an average of 30 seconds on each domain visit [@kulshrestha2021]. These patterns of repetitive behavior and infrequent exploration have also been observed in TV viewing and online shopping data, demonstrating that people mostly revisit familiar sites and only occasionally try something new [@wang2023]. These studies support the idea of some online nodes as key points in digital navigation and highlight the consistent ways in which online and offline mobility patterns align.
+
+Collectively, prior research summarized above suggests that empirical regularities observed in offline mobility may also apply to online mobility, albeit with some differences in magnitude. In particular, it appears that: 1) online behavior is more spatio-temporally concentrated than offline behavior; 2) awareness space expands more slowly online than offline; 3) past online and offline mobility strongly predicts future mobility; 4) location exploration rates decline over time more rapidly online than offline; and 5) users exhibit preferential return to familiar online and offline nodes. Environmental criminology rests on propositions of a similar nature [@wortley2017], but so far, no framework has been proposed to systematically observe whether these or other propositions also hold in online environments---and, if so, how they could be measured and what important criminological questions they might help us answer. Before reaching that point though, and just as was done in the development of crime pattern theory within environmental criminology [@brantingham1981], it is first necessary to articulate the geometry of cybercrime and how it aligns with the spatio-temporal particularities of cyberspace.
+
+# A framework to analyze cybercrime journeys
+
+To study offender mobility in geographic space, criminologists developed the concept of crime journeys. According to Bernasco [-@bernasco2014], a crime journey is the departure (and sometimes return) tour taken by an offender from a relevant reference location, which in turn refers to "the (main) home of the individual or any other the location from which the individual regularly departs and returns to on a daily basis" (p. 2). In cyberspace, the physical and virtual layers produce a duality of travel that must be acknowledged. The virtual layer gives rise to the journey perceived by individuals through their screens. We call this the *human journey*. In it, users exercise control over their actions, such as choosing an application or clicking a specific link to visit a webpage. However, to move through the virtual layer, individuals must transmit information that travels through the physical layer. We call this the *data journey*, which is often unnoticed by users (though they may be aware of it) and over which they have limited control, except in specific cases such as re-routing traffic via a VPN. From a criminological and behavioral perspective, the most relevant journey is the human journey, as it allows to examine the decision-making process. And just like understanding the geography is essential to analyzing offline mobility, understanding the topology of cyberspace---cyber places, activity nodes, paths, and spaces---is key to analyzing online mobility.
+
+Drawing on the concept of crime journeys and taking into consideration the topology of cyberspace, we propose a framework for analyzing online offender mobility: the *cybercrime journeys*. A cybercrime journey encompasses the sequence of nodes that an individual and their data traverse across the virtual and physical layers of cyberspace before, during, and after committing a crime.
+
+Networks are a common way to represent topological relationships, especially in communication systems [see @dodge2001]. They structure interactions between entities like devices or users. Given the aforementioned topology of cyberspace, we propose representing cybercrime journeys as directed networks. In the human journey, nodes represent places, and edges correspond to hyperlinks---depicted as arrows---between consecutively visited places. In the data journeys, nodes refer to infrastructure components such as routers and servers, while edges represent the physical connections (cable) between them. By following the arrows, journeys can be reconstructed step by step. The disconnected nodes represent cyber places that are part of the subject's activity space, or infrastructure components that are part of the network, but not part of the journey. This approach also enables the use of network properties for both visualization and statistical analysis. As networks, cybercrime journeys can be represented at either an aggregate or individual level. Aggregate visualizations reveal broader activity patterns across multiple journeys, while individual views allow for detailed analysis of specific cases.
+
+```{r}
+#| label: data-cybercrime-journey
+
+# Create the nodes
+df_nodes <- tibble(
+  name = c(
+    "a", "b", "c", "d", "e", "f", "g",
+    "α", "β", "γ", "δ", "ε", "ζ", "η", "θ"
+  ),
+  seq = c(
+    "1", "2,4", "3,6", "5", "7", "", "",
+    "I", "II", "III,V", "IV,VII", "VI", "VIII", "", ""
+  ),
+  node_type = c(
+    rep("cyber place", 7),
+    rep("infrastructure", 8)
+  )
+) |> 
+  # Prepare the data to produce inverse text color in the nodes
+  mutate(
+    node_text_color = if_else(
+      condition = node_type == "infrastructure", 
+      true = "black", 
+      false = "white"
+    ),
+    node_text_color = if_else(
+      condition = node_type == "cyber place", 
+      true = "white", 
+      false = "black"
+    ),
+    node_border_color = if_else(
+      condition = node_type == "cyber place", 
+      true = "black", 
+      false = "grey"
+    )
+  )
+
+# Create the edges
+df_edges <- tibble(
+  from = c(
+    "a", "b", "c", "b", "d", "c",
+    "a", "α", "β", "γ", "δ", "γ", "ε", "δ", "ζ",
+    "γ", "δ", "ε"
+  ),
+  to = c(
+    "b", "c", "b", "d", "c", "e",
+    "α", "β", "γ", "δ", "γ", "ε", "δ", "ζ", "e",
+    "b", "c", "d"
+  ),
+  edge_type = c(
+    "virtual", "virtual", "virtual", "virtual", "virtual", "virtual",
+    "physical", "physical", "physical", "physical", "physical", "physical", "physical", "physical", "physical",
+    "physical", "physical", "physical"
+  )
+)
+
+# Assemble the nodes and edges as a graph
+g_journey <- tbl_graph(
+  nodes = df_nodes,
+  edges = df_edges,
+  directed = TRUE
+)
+```
+
+```{r}
+#| label: fig-cybercrime-journey
+#| fig-cap: "Schematic representation of a cybercrime journey. Hindu-Arabic numerals represent the sequence of cyber places visited by the user, while Roman numerals indicate the sequence of infrastructure nodes traversed by the data."
+#| fig-width: 6
+#| fig-height: 4
+#| warning: false
+
+# Create icons for origin (house) and crime location (bullseye)
+fa_png("house")
+fa_png("bullseye")
+
+# Write a path to the icons
+icon_house <- here("syntax", "WP02_adapting-crime-journeys-to-cyberspace", "house.png")
+icon_bullseye <- here("syntax", "WP02_adapting-crime-journeys-to-cyberspace", "bullseye.png")
+
+# Set a seed for reproducibility
+set.seed(10)
+
+# Generate the graph's layout
+g_layout <- g_journey |> 
+  create_layout(layout = "fr") 
+
+# Plot
+fig_journey <- g_journey |>
+  ggraph(layout = g_layout) +
+  geom_edge_fan(
+    mapping = aes(color = factor(
+      x = edge_type, 
+      levels = c("virtual", "physical")
+    )),
+    arrow = arrow(length = unit(2, "mm")),
+    end_cap = circle(3, "mm")
+  ) +
+  geom_node_point(
+    mapping = aes(
+      fill = node_type, 
+      color = node_border_color),
+    size = 6,
+    stroke = 1,
+    shape = 21
+  ) +
+  geom_node_text(
+    mapping = aes(label = seq),
+    color = df_nodes |> pull(node_text_color),
+    size = 3
+  ) +
+  # Add house icon for 'origin' node
+  geom_image(
+    data = g_layout |> filter(seq == "1" | seq == "7"),
+    mapping = aes(
+      x = x, 
+      y = y, 
+    ),
+    image = c(icon_house, icon_bullseye),
+    size = .05,
+    by = "width",
+    inherit.aes = FALSE,
+    nudge_y = .5
+  ) +
+  annotate(
+    geom = "text",
+    x = c(-2.3, .5, .439, -2.53),
+    y = c(.7, -2.8, 1.308, -1.41),
+    label = c("Human\njourney", "Data\njourney", "origin", "crime\nlocation"),
+    color = c("black", "grey", "black", "black"),
+    size = 3
+  ) +
+  scale_x_reverse() +
+  scale_edge_color_manual(
+    name = "Path type",
+    values = c("black", "grey")
+  ) +
+  scale_fill_manual(
+    name = "Node type",
+    values = c("cyber place" = "black", "infrastructure" = "white")
+  ) +
+  scale_color_identity() +
+  # Override the border colors for 'cyber place' and 'infrastructure' in the legend
+  guides(fill = guide_legend(override.aes = list(color = c("black", "grey")))) +  
+  theme_graph()
+
+print(fig_journey)
+
+# Save the plot
+ggsave(
+  filename = "fig_cybercrime-journey.png",
+  plot = fig_journey,
+  device = "png",
+  path = here("output", "figures", "WP02_adapting-crime-journeys-to-cyberspace"),
+  width = 6,
+  height = 4,
+  units = "in",
+  dpi = 500
+)
+```
+
+@fig-cybercrime-journey presents a schematic representation of a cybercrime journey, including both the human journey (in black) and the data journey (in grey). The figure illustrates the journey as a dual-layer network representing its physical and virtual dimensions; however, each layer can also be represented independently, depending on analytical relevance and clarity. As offenders progress along their journeys, they transmit data through the infrastructure of cyberspace, which in turn delivers this information to the cyber places they visit. Cyber places are therefore built upon infrastructure nodes. With the exception of the origin, visiting a cyber place requires both human input---such as clicking a hyperlink---and the successful transmission of data through the underlying infrastructure. For example, when an offender moves from the origin to the next cyber place (from node 1 to node 2), the data they transmit must first traverse the infrastructure hosting that place (nodes I, II, and III). This illustrates that human journeys and data journeys unfold in parallel.
+
+```{r}
+#| label: data-components
+
+v_component <- c(
+  "Motivations", 
+  "Origins", 
+  "Destinations", 
+  "Routes",
+  "Data type",
+  
+  "Gateways",
+  "Traffic volume",
+  "Protocols",
+  "Times", 
+  "Durations", 
+  
+  "Speeds",
+  "Distances", 
+  "Angles", 
+  "Travel modes", 
+  "Co-travelers", 
+  
+  "Crime locations"
+)
+
+v_def_short <- c(
+  "Why does the individual travel?",
+  "Where do the individual and data start?",
+  "Where do the individual and data intend or are supposed to arrive?",
+  "What route do the individual and data take?",
+  "What type of data is transmitted?",
+  
+  "Where do the individual and data pass through?",
+  "How much data is transmitted?",
+  "How is the data transmission handled?",
+  "When does travel and data transmission occur?",
+  "How long does travel and data transmission last?",
+  
+  "How fast do travel and data transmission happen?",
+  "How far do the individual and data travel?",
+  "In which direction is the data transmitted?",
+  "Which networks the data passes through?",
+  "With whom does the individual travel?",
+  
+  "Where does the crime take place?"
+)
+
+v_def_long <- c(
+  "The reason that inspires an individual to start traveling.",
+  "The reference location.",
+  "The locations where an individual interrupts travel to perform an activity. It can also be the 'origin' in return trips. Data arrive at their destination through both physical and network ports.",
+  "The sequence of locations that an individual visits between the 'origin' and the 'destination.'",
+  NA_character_,
+  
+  NA_character_,
+  NA_character_,
+  NA_character_,
+  "The moment when an individual departs from the 'origin' and arrives at the 'destination.'",
+  "The time that an individual takes to travel the 'route.' It can also refer to 'route' sections.",
+  
+  "The speed at which an individual travels along the 'route.'",
+  "The total distance that an individual covers along the 'route.'",
+  "The travel vector along the 'route.'",
+  "The mode of transportation used by an individual along the 'route.'",
+  "The sequence and timing of any company that an individual has along the 'route.'",
+  
+  "The location of the target of the crime."
+)
+
+v_cyber_analogy <- c(
+  "Same. E.g. to hack a website.",
+  "The cyber place or infrastructure node serving as the usual entry point to cyberspace. E.g. a web browser, a laptop.",
+  "Same, replacing locations with cyber places or infrastructure nodes. E.g. a search engine, a server.",
+  "Same, with locations as cyber places or infrastructure nodes. E.g. web browser → search engine → exploit database → target website; computer → home router → ISP server → DNS/content server → CDN/edge server → target server",
+  "The type of data that is transmitted along the 'route'. E.g. login credentials, HTML files.",
+  
+  "The intermediary access points through which data enters or exits a cyber place (e.g. port 443).",
+  "The amount of data that is transmitted along the 'route'. E.g. 10 MB between nodes 'α' and 'β'.",
+  "The rules and procedures that determine how data 'traffic' is handled. E.g. TCP, HTTP, DNS.",
+  "Same. E.g. from 00:00 to 01:00 hours.",
+  "Same. E.g. one hour.",
+  
+  "The average number of cyber places or infrastructure nodes visited per unit of time. E.g. 10 cyber places per minute.",
+  "The number of paths traveled between cyber places or infrastructure nodes, including repeats. E.g. 10 paths.",
+  "Same, replacing individuals with data. E.g. southeast, from an individual's laptop in Amsterdam to a server in Frankfurt.",
+  "The types of networks in which the data travels. E.g. the Internet, a local area network (LAN), a wifi network.",
+  "The sequence and timing of users communicating with an individual during the journey. E.g. a forum user, another hacker.",
+  
+  "Same. E.g. the target website; the target server."
+)
+
+v_journey_type <- c(
+  "fas fa-circle-user",
+  "fas fa-circle-user,fas fa-database",
+  "fas fa-circle-user,fas fa-database",
+  "fas fa-circle-user,fas fa-database",
+  "fas fa-database",
+  
+  "fas fa-database",
+  "fas fa-database",
+  "fas fa-database",
+  "fas fa-circle-user,fas fa-database",
+  "fas fa-circle-user,fas fa-database",
+  
+  "fas fa-circle-user,fas fa-database",
+  "fas fa-circle-user,fas fa-database",
+  "fas fa-database",
+  "fas fa-database",
+  "fas fa-circle-user",
+  
+  "fas fa-circle-user,fas fa-database"
+)
+```
+
+Crime journeys can be dissected into components for analysis. Expanding on the 12 components in the framework proposed by @bernasco2014, in @tbl-components we propose an expanded version that incorporates the unique topology of cyberspace. This adaptation provides analogies for each original component applicable to human and/or data journeys, while introducing `r length(v_component) - 12` additional components specifically relevant to cybercrime journeys.[^4]
+
+[^4]: Note that at least some of the components would also be applicable to geographical journeys. For example, 'gateways', understood as access points to places, could be the front door of a hotel or the back door of a warehouse. Similarly, 'traffic volume' could refer to the ambient population at a particular place and time along the route.
+
+```{r}
+#| label: tbl-components
+#| tbl-cap: Components of crime journeys and their analogues in cyberspace
+
+# Arrange the data as a table
+tibble(
+  v_component,
+  v_def_long,
+  v_cyber_analogy,
+  v_journey_type,
+  v_def_short
+) |> 
+  gt() |> 
+  cols_label(
+    v_component = "Component",
+    v_def_long = "Traditional definition",
+    v_cyber_analogy = "Cyber definition/analogy",
+    v_journey_type = "Human or data journey",
+    v_def_short = "Question it answers"
+  ) |> 
+  fmt_icon(columns = v_journey_type) |> 
+  cols_align(
+    columns = v_journey_type,
+    align = "center"
+  ) |> 
+  sub_missing(
+    columns = everything(),
+    missing_text = ""
+  )  
+```
+
+# Empirical illustration of the framework
+
+To demonstrate the feasibility of the proposed framework, this section presents a proof of concept based on data from a pilot study by @moneva2024 on criminal expertise and hacking efficiency. The data, collected in a computer lab in 2021, consist of monitoring software logs recording a web hack conducted by an expert hacker, which contains information about trips made before, and during the hack was committed. This hack can be described as a premeditated human journey to crime with a fixed destination on a vulnerable target website. The setup predetermined some of the exploitation techniques used to gain access to the system and therefore influenced how the journey unfolded. Because the monitoring software did not capture any activity within the virtual machine running a Kali Linux operating system---containing many hacking tools---part of the journey is missing. While incompleteness limits its use for theory testing, it does not compromise its value for empirically illustrating the current framework, as it shows how offenders may move within the topology of cyberspace.
+
+```{r}
+#| label: import-data
+#| message: false
+
+df_logs <- read_csv(file = here("output", "data", "2025-10-08_data-logs-expert.csv"))
+```
+
+```{r}
+#| label: transform-data
+
+df_logs_ <- df_logs |> 
+  # Filter only relevant observations: `url_stat` and `prg_stat` record the cyber places that participants visited and the time elapsed between visits
+  filter(event %in% c("url_stat", "prg_stat")) |> 
+  # Identify and remove subdomains from the URLs
+  mutate(
+    # Identify only valid URLs and not programs or IP addresses
+    domain = if_else(
+      condition = event == "url_stat",
+      true = str_detect(
+        string = source_clean,
+        # This expression identifies valid URLs
+        pattern = "^[[:alnum:]-]+(\\.[[:alnum:]-]+)+$"
+      ) & 
+        !str_detect(
+          string = source_clean,
+          # This expression identifies IP addresses
+          pattern = "^[:digit:]+(\\.[:digit:]+){3}$"
+        ), 
+      false = FALSE
+    ),
+    # Count the number of dots that URLs have as additional evidence for the presence of subdomains
+    subdomain = if_else(
+      condition = str_count(
+        string = source_clean,
+        pattern = "\\."
+      ) > 1 & 
+        domain == TRUE,
+      true = TRUE,
+      false = FALSE
+    ),
+    # Finally, remove the subdomain from the URL and clean `source_clean` further
+    source_clean_ = if_else(
+      condition = subdomain == TRUE,
+      true = str_replace(
+        string = source_clean,
+        pattern = "^[[:alnum:]-]+\\.",
+        replacement = ""
+      ),
+      false = source_clean
+    ),
+    source_clean_ = str_replace(
+      string = source_clean_,
+      # This expression matches URLs starting with `.`, and IPs ending with port numbers and unexpected symbols
+      pattern = "^\\.(?=[[:alnum:]-])|(?<=[:digit:]):[[:digit:]*\\\\]+$|\\\\$",
+      replacement = ""
+    ),
+    # Rename IP of the target website with "target website" 
+    source_clean_ = str_replace(
+      string = source_clean_,
+      pattern = "192.168.56.101",
+      replacement = "Target website"
+    )
+  ) |> 
+  # Remove duplicated observations of browser-related `prg_stat` that are recorded when users browse URLs. Such observations of `prg_start` share timestamp with `url_stat` and always precede them, so we can filter the observations with the largest `id`
+  group_by(date_time, user) |> 
+  filter(
+    id == max(id),
+    # There are also some programs that shouldn't be included in the logs because 1) they are launched with Windows (`explorer.exe`, `Flow.exe`), or 2) they are the used to run the monitoring software (`akl.exe`)
+    !source_clean %in% c("explorer.exe", "Flow.exe", "akl.exe"),
+    # Remove any observations after the hack ends (marked by `LockApp.exe` with id `50545`)
+    id < 50545
+  ) |> 
+  ungroup() |> 
+  mutate(
+    # Some instances of `details` are incorrectly recorded due to participants entering specific text strings that are not URLs in the URL bar. To fix this issue, we recalculate the `details` variable using `date_time` and a lagged version of `date_time`
+    details_ = as.numeric(date_time - lag(date_time)),
+    # Relocate the time spent (in seconds) on each cyber place from `details_`
+    time_spent = lead(details_),
+    # Add a new id called `id_source` that identifies identical consecutive cyber places to be able to sum the total time spent in them
+    id_source = consecutive_id(source_clean_),
+    # Create a factor version of `source_clean` and `user` for analysis
+    # source_clean_fct = as_factor(source_clean_),
+    component = as_factor(user)
+  ) |>
+  # Extract a clean version of the time spent on each node in seconds
+  group_by(id_source) |> 
+  mutate(time_spent_ = sum(time_spent)) |>
+  # Remove redundant rows containing repeated identical `source_clean`
+  slice_head(n = 1) |>
+  ungroup() |>
+  group_by(user) |>
+  # Calculate the cumulative time spent on nodes to understand journey progression
+  mutate(
+    # It's not possible to precisely know how much time participants spent in the last cyber place they visited, so we replace that value with 1. This is a limitation
+    time_spent_ = if_else(
+      condition = date_time == max(date_time),
+      true = 1,
+      false = time_spent_
+    ),
+    time_spent_cum = cumsum(time_spent_),
+    # Now we can use `time_spent_cum` to crate a measure of journey progression based on n quantiles. For simplicity, we define four quantiles
+    phase = case_when(
+      time_spent_cum <= quantile(time_spent_cum, probs = .25) ~ 1,
+      time_spent_cum <= quantile(time_spent_cum, probs = .50) ~ 2,
+      time_spent_cum <= quantile(time_spent_cum, probs = .75) ~ 3,
+      time_spent_cum <= quantile(time_spent_cum, probs = 1.00) ~ 4
+    ),
+    .after = time_spent_
+  ) |> 
+  ungroup() |> 
+  # Calculate the number of visits to each cyber place per phase
+  group_by(source_clean_, phase) |> 
+  mutate(visits_node_user_phase = n()) |>
+  ungroup(phase) |> 
+  # And now both in total
+  mutate(
+    visits_node_user = n(),
+    mean_time = mean(date_time)
+) |> 
+  ungroup() |> 
+  # Create a variable that will allow to rank places based the their mean position along the temporal axis
+  mutate(order = dense_rank(mean_time))  
+  # group_by(source_clean_) |>
+  # mutate(mean_time = mean(date_time)) |> 
+  # ungroup() |> 
+  # mutate(order = dense_rank(mean_time))
+```
+
+```{r}
+#| label: transform-data-nodes
+
+# Our dataset already has the right shape to become the nodes of a tidy network, so we only need to add the relevant attributes to each node
+df_mdn <- df_logs_ |>
+  # Calculate the median number of visits to, and time spent on, each cyber place per user and across all users
+  group_by(source_clean_) |> 
+  mutate(time_spent_sum = sum(time_spent_)) |> 
+  ungroup() |>
+  # Select the minimum number of variables and rows necessary for merging
+  select(
+    source_clean_, 
+    time_spent_sum
+  ) |> 
+  distinct()
+```
+
+```{r}
+#| label: merge-data-nodes
+
+# Merge both datasets to enrich the main one with `time_spent_mdn` and `visits_total_mdn`
+df_logs_nodes <- df_logs_ |> 
+  left_join(
+    y = df_mdn, 
+    by = "source_clean_",
+    relationship = "many-to-one"
+  )
+```
+
+```{r}
+#| label: transform-data-edges
+
+# To create the edges dataset, we need to link consecutively visited cyber places per user
+df_logs_edges <- df_logs_nodes |> 
+  # {tidygraph} recognizes `from` and `to` as the variables for edges, so we use those names
+  rename(from = source_clean_) |> 
+  mutate(
+    to = lead(from),
+    .after = from
+  ) |> 
+  # Because we moved up all observations per user in `to`, now the last observation of `to` per user contains an `NA`. Remove it
+  drop_na(to) |> 
+  # Calculate how many times each edge has been established, both by user and in total
+  group_by(from, to) |> 
+  mutate(visits_edge_user = n()) |> 
+  ungroup()
+```
+
+```{r}
+#| label: network-data-nodes
+
+# Tidy network data requires two datasets: node data and edge data. Create network data from `df_logs_nodes` and `df_logs_edges` to be able to visualize crime journeys. Duplicate nodes and edges must be removed. 
+
+# It appears that `tidygraph` (and `igraph`) don't handle multigraphs properly when it comes to component detection. As a workaround, we create separate graph objects for different analyses
+
+# Node data
+df_logs_nodes_ <- df_logs_nodes |> 
+  select(
+    source_clean_, 
+    event,
+    component,
+    visits_node_user, 
+    time_spent_sum,
+    order
+  ) 
+
+# Create a function to extract the nodes of specific journeys 
+extract_component_nodes <- function (data, component_id) {
+  
+  data |> 
+    filter(component == component_id) |> 
+    distinct(source_clean_, .keep_all = TRUE)
+  
+}
+
+# Extract the nodes of specific journeys
+df_nodes_expert <- df_logs_nodes_ |> extract_component_nodes(component_id = "expert")
+```
+
+```{r}
+#| label: network-data-edges
+
+# Edge data
+df_logs_edges_ <- df_logs_edges |> 
+  select(
+    from, 
+    to,
+    component,
+    phase,
+    visits_edge_user 
+  ) 
+
+# Create a function to extract the edges of specific static journeys 
+extract_component_edges <- function (data, component_id, type) {
+  
+  # Static journeys need different edges that dynamic journeys because the latter need to look at how edges evolve over time
+  if (type == "static") {
+    
+    data |> 
+      filter(component == component_id) |> 
+      distinct(from, to, .keep_all = TRUE)
+    
+  } else if (type == "dynamic") {
+    
+    data |> 
+      filter(component == component_id) |> 
+      # The `phase` variable allows to display journeys over time
+      distinct(from, to, phase, .keep_all = TRUE)
+    
+  } else {
+    
+    # Display an error message in case the journey type was not correctly indicated
+    stop ("Incorrect journey type. Please use 'static' or 'dynamic'.")
+    
+  }
+  
+}
+
+# Extract the edges of specific journeys for both static and dynamic types
+df_edges_expert_sta <- df_logs_edges_ |> 
+  extract_component_edges(
+    component_id = "expert", 
+    type = "static"
+  )
+
+df_edges_expert_dyn <- df_logs_edges_ |> 
+  extract_component_edges(
+    component_id = "expert", 
+    type = "dynamic"
+  )
+```
+
+```{r}
+#| label: graph-objects
+
+# Graph object for a specific (`expert`) static journey
+graph_expert_sta <- tbl_graph(
+  nodes = df_nodes_expert,
+  edges = df_edges_expert_sta,
+  node_key = "source_clean_",
+  directed = TRUE
+)
+
+# Graph object for a specific (`expert`) dynamic journey
+graph_expert_dyn <- tbl_graph(
+  nodes = df_nodes_expert,
+  edges = df_edges_expert_dyn,
+  node_key = "source_clean_",
+  directed = TRUE
+)
+```
+
+```{r}
+#| label: fig-g-indiv
+#| warning: false
+#| fig-width: 8
+#| fig-height: 4
+
+set.seed(10)
+
+fig_graph_expert_sta <- graph_expert_sta |> 
+  ggraph(layout = "kk") +
+  geom_edge_fan(
+    mapping = aes(alpha = visits_edge_user),
+    # Customize arrows so that they end slightly before the end of the nodes
+    arrow = arrow(length = unit(2, "mm")),
+    end_cap = circle(3, "mm")
+  ) +
+  geom_node_point(mapping = aes(
+    size = time_spent_sum,
+    fill = visits_node_user,
+    shape = event
+  )) +
+  geom_node_text(
+    mapping = aes(
+      label = source_clean_, 
+      alpha = visits_node_user
+    ),
+    repel = TRUE,
+    show.legend = FALSE
+  ) +
+  scale_fill_viridis(name = "Times visited") +
+  scale_edge_alpha(name = "Times transitted") +
+  scale_size_continuous(name = "Time spent (s)") +
+  # Set custom shapes: squares for applications, and circles for websites
+  scale_shape_manual(
+    name = "Cyber place type",
+    values = c(22, 21),
+    labels = c("applications", "websites")
+  ) +
+  theme_graph()
+```
+
+```{r}
+#| label: fig-g-indiv-phases
+#| warning: false
+#| fig-width: 8
+#| fig-height: 4
+
+fig_graph_expert_dyn <- graph_expert_dyn |> 
+  ggraph(layout = "kk") +
+  geom_edge_fan(
+    mapping = aes(alpha = visits_edge_user),
+    arrow = arrow(length = unit(2, "mm")),
+    end_cap = circle(2, "mm"),
+    show.legend = FALSE
+  ) +
+  geom_node_point(
+    mapping = aes(shape = event), 
+    show.legend = FALSE
+  ) +
+  scale_edge_alpha(name = "Times transitted") +
+  scale_shape_manual(
+    name = "Cyber place type",
+    values = c(15, 16),
+    labels = c("applications", "websites")
+  ) +
+  facet_edges(
+    facets = vars(phase), 
+    # Attach the variable name to the variable value for context
+    labeller = labeller(phase = c(
+      "1" = "Phase 1", 
+      "2" = "Phase 2", 
+      "3" = "Phase 3", 
+      "4" = "Phase 4"
+    ))
+  ) +
+  theme_graph() +
+  # Add light gray strips to the labeller in order to better distinguish each phase
+  theme(strip.background = element_rect(
+    fill = "gray95", 
+    color = NA
+  ))
+```
+
+```{r}
+#| label: fig-t-indiv
+#| fig-width: 8
+#| fig-height: 4
+
+fig_time_expert <- df_logs_nodes |> 
+  ggplot(mapping = aes(
+    y = fct_reorder(
+      .f = as_factor(source_clean_),
+      .x = order
+    ),
+    x = date_time,
+    shape = event,
+    group = 1
+  )) +
+  annotate(
+    geom = "rect",
+    xmin = c(
+      df_logs_edges |> filter(phase == 1) |> pull(date_time) |> min(), 
+      df_logs_edges |> filter(phase == 3) |> pull(date_time) |> min()
+    ),
+    xmax = c(
+      df_logs_edges |> filter(phase == 1) |> pull(date_time) |> max(),
+      df_logs_edges |> filter(phase == 3) |> pull(date_time) |> max()
+    ),
+    ymin = c(-Inf, -Inf),
+    ymax = c(Inf, Inf),
+    fill = "grey",
+    alpha = .2
+  ) +
+  annotate(
+    geom = "text",
+    # Determine the position of the text by calculating the mid point of the range of dates for each phase
+    x = c(
+      df_logs_edges |> filter(phase == 1) |> pull(date_time) |> range() |> mean(),
+      df_logs_edges |> filter(phase == 2) |> pull(date_time) |> range() |> mean(),
+      df_logs_edges |> filter(phase == 3) |> pull(date_time) |> range() |> mean(),
+      df_logs_edges |> filter(phase == 4) |> pull(date_time) |> range() |> mean()
+    ),
+    y = c("wpwhitesecurity.com", "wpwhitesecurity.com", "wphackedhelp.com", "wphackedhelp.com"),
+    label = c("Phase 1", "Phase 2", "Phase 3", "Phase 4"),
+    fontface = "bold",
+    size = 3.5
+  ) +
+  geom_step(alpha = .5) +
+  geom_point(
+    alpha = .5,
+    size = 1
+  ) +
+  scale_shape_manual(
+    values = c(15, 16),
+    labels = c("applications", "websites"),
+    guide = "none"
+  ) +
+  labs(
+    x = "Time",
+    y = NULL,
+    subtitle = "Cyber places visited"
+  ) +
+  theme_minimal() +
+  theme(plot.subtitle = element_text(hjust = -.25))
+```
+
+```{r}
+#| label: fig-g-indiv-complete
+#| warning: false
+#| fig-width: 8
+#| fig-height: 10
+#| fig-cap: "Multiple representations of a human journey to web hacking. a) The journey as a network, with activity nodes and paths highlighted according to visit and transition frequency, and time spent. b) Four sequential snapshots of the network to depict the journey's progression over time. c) The step-by-step journey across time and cyber place."
+
+fig_graph_expert_full <- free(fig_graph_expert_sta) + free(fig_graph_expert_dyn) + guide_area() + fig_time_expert +
+  plot_layout(
+    design = "AAAC\nBBBC\nDDDD",
+    guides = "collect"
+  ) +
+  plot_annotation(tag_levels = "a", tag_suffix = ")") +
+  theme(legend.key.height = unit(
+    x = 1, 
+    units = "null"
+  ))
+print(fig_graph_expert_full)
+
+# Save the plot
+ggsave(
+  filename = "fig_graph_expert_full.png",
+  plot = fig_graph_expert_full,
+  device = "png",
+  path = here("output", "figures", "WP02_adapting-crime-journeys-to-cyberspace"),
+  width = 8,
+  height = 10,
+  units = "in",
+  dpi = 500
+)
+```
+
+@fig-g-indiv-complete illustrates the hacker's journey into web hacking across space and time in three distinct ways. We draw on the relevant components of human journeys to describe the hack. Panel a) maps `r df_nodes_expert |> nrow()` unique destinations visited by the hacker into a network, represented as either websites (circles) or applications (squares). The network reveals uneven patterns in both time spent and transitions between locations. These are visualized through node size and edge color, with larger nodes and darker edges indicating more intensive activity and frequent movement. Panel b) breaks down the hacker's route into four phases, while Panel c) provides a step-by-step reconstruction of the journey. The latter panel shows that the activity originated on a virtual machine (VirtualBox.exe) and lasted approximately `r df_nodes_expert |> summarize(total_time = sum(time_spent_sum) / 60) |> pull(total_time) |> round()` minutes. The length of individual visits to cyber places ranged from `r df_logs_nodes |> summarize(min_time = min(time_spent_)) |> pull(min_time)` second to over `r df_logs_nodes |> summarize(max_time = max(time_spent_) / 60) |> pull(max_time) |> round()` minutes. On average, the hacker traveled at a speed of `r (df_nodes_expert |> summarize(total_time = sum(time_spent_sum) / 60) |> pull(total_time) / df_nodes_expert |> nrow()) |> round(digits = 1)` cyber places per minute, traversing a total of `r df_logs_edges_ |> nrow()` paths. It is known that the hacker traveled alone, and that the crime---a defacement---was committed in the target website.
+
+This example illustrates the feasibility of the framework, and shows some basic descriptive insights that human journeys can systematically provide. However, in practice, some journey components may be difficult to observe. For instance, our web hacking example did not contain information about the data journey. To facilitate research on cybercrime journeys, next section discusses types of data required, how they can be collected, and the specific insights they would provide.
+
+# Data sources to analyze cybercrime journeys
+
+Several methodologies have been used to reconstruct crime-related, spatio-temporal activity patterns. To do so, researchers often rely on self-reported data, such as diaries, space-time budget methods, and mobile applications [for reviews see @hoeben2014; @solymosi2021]. While insightful, such methods are susceptible to measurement error, including recall and social desirability biases, which can affect the validity and reliability of the data. On rare occasions, researchers collect objective measures using GPS trackers and cell tower location data [@griffiths2017; @rossmo2011], which avoid the aforementioned biases, but often lack contextual details about offenders' activities and motivations.
+
+Since empirical studies on offender mobility in cyberspace are scarce, studies on legal online activity can illustrate the types of data that could be leveraged to analyse cybercrime journeys. As with offline activity, self-reported online activity data face limitations [for a meta-analysis, see @parry2021]. Objective measures are therefore preferred for a more accurate account of online activity. Monitoring software, for instance, can provide detailed data on users' spatio-temporal activity by capturing browsing history [@kulshrestha2021; @zhao2014] and application usage [@denadai2019]. Applied to criminological research, these methods can offer valuable insights into online offender mobility. Other data types, such as screen recordings and time-stamped keystrokes, have already been used to examine online offender activity in controlled settings [@moneva2024], allowing highly reliable analyses of cybercrime journeys.
+
+There are many data types and sources that allow researchers to observe cybercrime journeys, either partially or completely. The observable components of a journey depend on the capabilities of the data collection tool. Some software can simultaneously capture multiple data types (e.g. monitoring software may collect screen recordings, system event logs, and keystroke logs), and various techniques exist for capturing the same data type (e.g., web browsing can be recorded through a browser’s history or via packet capture of HTTP traffic). Without aiming to be exhaustive, @tbl-data-sources provides an overview of some of the sources for collecting data types relevant to analyzing both human and data cybercrime journeys.
+
+```{r}
+#| label: data-sources
+
+# Data collection method
+v_collection_method <- c(
+  "Screen recordings",
+  "Surveys and interviews",
+  "Application logs",
+  "System event logs",
+  "Web browsing history",
+  
+  "Web scraping and OSINT",
+  "Packet capture",
+  "Detection systems",
+  "Keystroke logs",
+  "Police files and sentences"
+)
+
+# Data type collected
+v_data_type <- c(
+  "Video of user interaction and interface navigation",
+  "Qualitative self-reports of activity and motivation",
+  "Specific application usage",
+  "OS-level events (e.g. log-ins, process starts, file access)",
+  "Sequence of URLs visited",
+  
+  "Digital footprint within or across cyber places",
+  "Network traffic",
+  "Security logs (e.g. alerts, incidents) and associated metadata",
+  "User input at cyber places (e.g. keystrokes, commands, searches)",
+  "Qualitative reports of police and judicial investigations"
+)
+
+# Components it typically captures
+v_some_components <- c(
+  "Origins, Destinations, Routes, Times, Durations, Speeds, Distances, Co-travelers, Crime locations",
+  "Motivations, Origins, Destinations, Routes, Times, Durations, Co-travelers, Crime locations", 
+  "Destinations, Routes, Times, Durations, Speeds, Crime locations",
+  "Origins, Destinations, Routes, Times, Durations, Speeds, Crime locations",
+  "Origins, Destinations, Routes, Times, Durations, Speeds",
+
+  "Destinations, Routes, Durations, Co-travelers, Crime locations",
+  "Origins, Destinations, Routes, Data type, Gateways, Traffic volume, Protocols, Times, Durations, Speeds, Distances, Angles, Travel modes",
+  "Data type, Gateways, Traffic volume, Protocols, Crime locations",
+  "Motivations, Co-travelers",
+  "Motivations, Origins, Destinations, Routes, Data types, Times, Durations, Co-travelers, Crime locations"
+)
+
+v_human_data <- c(
+  "fas fa-circle-user",
+  "fas fa-circle-user",
+  "fas fa-circle-user,fas fa-database",
+  "fas fa-circle-user,fas fa-database",
+  "fas fa-circle-user",
+   
+  "fas fa-circle-user",
+  "fas fa-database",
+  "fas fa-database",
+  "fas fa-circle-user",
+  "fas fa-circle-user,fas fa-database"
+)
+```
+
+```{r}
+#| label: tbl-data-sources
+#| tbl-cap: Cybercrime journey data sources and journey components captured
+
+tibble(
+  v_collection_method,
+  v_data_type,
+  v_human_data,
+  v_some_components
+) |> 
+  arrange(desc(str_count(
+    string = v_some_components,
+    pattern = ","
+  ))) |> 
+  gt() |> 
+  cols_label(
+    v_collection_method = "Source",
+    v_data_type = "Data type",
+    v_human_data = "Human or data journey",
+    v_some_components = "Components potentially captured",
+  ) |> 
+  fmt_icon(columns = v_human_data) |> 
+  cols_align(
+    columns = v_human_data,
+    align = "center"
+  )
+```
+
+Some additional considerations for data analysis are important. Most of the sources listed---except for surveys and interviews---provide objective measures. Some sources, such as screen recordings, capture numerous components but pose considerable challenges for data analysis, as parsing video data into a structured tabular format often requires manual extraction that is both time-consuming and costly. Conversely, sources like surveys and interviews provide a substantial amount of journey components and have the advantage of being more accessible for both data collection and analysis. While some components (e.g., destinations, routes, durations) can be captured in multiple ways, others (e.g. motivations and co-offenders in human journeys, or traffic volume and protocols in data journeys) require specific data collection tools. Therefore, the choice of data source should be carefully considered in light of the research question, as well as resource constraints and the challenges involved in data analysis.
+
+It should also be noted that there are other data sources that provide valuable, albeit incomplete, information for understanding cybercrime journeys. For example, while application logs and browsing history capture critical segments of the human journey, they are insufficient on their own to represent complete journeys. Nevertheless, browsing data can be particularly insightful for examining preparatory behaviors within the crime-commission process (i.e. reconnaissance). These web nodes could be complemented by application nodes to capture the two most prevalent types of cyber places within the human journeys. Additional data sources excluded from the table, such as application programming interfaces and web analytics, enable tracking behavior within a single cyber place and can be useful for understanding micro-patterns of activity within segments of the journey. In any case, it is important to understand what can be derived from each data source and for what purpose.
+
+# Purpose of researching cybercrime journeys
+
+The precise definition of the basic elements of the topology of cyberspace, along with the operationalization of journey components, facilitates the formulation of testable hypotheses about where, when, and how cybercrimes are committed, illustrating the framework’s potential for theory building and practical application. For example, it becomes possible to draw on established hypotheses about crime location choice and offender mobility in geographical space, replace geographic concepts with their topographic analogues, and thus derive new hypotheses for online offending.
+
+## Theory development using the topology of cyberspace
+
+Empirical research using *the topology of cyberspace* can shed light on how and why the immediate cyber environment influences criminal behavior and how cybercrimes show spatiotemporal patterns, offering key insights for environmental criminology and crime analysis [@wortley2017].
+
+An established empirical regularity in criminology is the concentration of crime in specific places [@sherman1989; @weisburd2015a]. Two main explanations for this phenomenon are known as the 'flag' and the 'boost' accounts [@pease1998]. The *flag* account argues that certain places possess characteristics that make them prone to crime, either by attracting offenders or by lacking effective crime control mechanisms. In contrast, the *boost* account suggests that during an initial attack, offenders either discover or create vulnerabilities that increase the target’s attractiveness for repeat offenses. In cyberspace, applications, websites, networks, and servers may similarly be vulnerable to attacks or perceived as particularly valuable by offenders, making them more likely to be targeted and to experience concentrations of crime. This assumption leads to the following hypotheses:
+
+> H~1~ Cybercrime is disproportionately concentrated in a few cyber places
+
+> H~1.1~ Cybercrime is more likely to occur in cyber places that are perceived as more valuable or vulnerable
+
+> H~1.2~ Cybercrime is more likely to occur in cyber places that have been victimized
+
+At the individual level, one explanation for certain crime patterns is that individuals are more likely to commit offences within their activity and awareness spaces [@brantingham1978; @brantingham2017]. Given that in cyberspace the awareness space overlaps with the activity space (see @sec-cyber-spaces), the hypothesis would be:
+
+> H~2~ Offenders are more likely to attack targets at cyber places within their cyber activity space
+
+In line with the least effort principle [@zipf1949], research on the journey to crime has shown that offenders tend to prefer crime trips requiring the least travel effort [@bernasco2005]. Although navigating cyberspace demands less effort than moving through physical space, it still involves cognitive and procedural effort. The following hypotheses follow:
+
+> H~3~ Offenders are more likely to attack targets at cyber places that are topologically close to their cyber activity space
+
+> H~3.1~ Offenders are more likely to attack targets at cyber places topologically close to their origin than targets topologically distant from their origin
+
+> H~3.2~ Offenders are more likely to attack targets at cyber places topologically close to their prior targets than targets topologically distant from their prior targets
+
+Consistent with the boost account for repeat victimization, research suggests that the commission of a crime provides offenders with unique knowledge of the crime location and the targets within it, increasing the likelihood that the location will be selected for a repeat offense [@bernasco2008; @farrell1995]. This likelihood appears to increase when the prior offense is recent and when the number of prior offenses at that location is higher [@lammers2015]. However, the limited existing evidence on similar patterns in cybercrime suggests that this effect may be less pronounced in cyber places. Data on self-reported website defacements indicate that while a small group of prolific offenders commit most repeat attacks, only a minority of offenders repeatedly target the same websites [@moneva2022]. However, given the limitations of the data analyzed, the evidence to contest the original claim remains insufficient. To test this prediction further, one could hypothesize:
+
+> H~4~ Offenders are more likely to repeatedly attack targets at the same cyber places
+
+> H~4.1~ The more recently offenders have targeted a cyber place, the more likely they are to target the same cyber place again
+
+> H~4.2~ The more frequently offenders have targeted a cyber place, the more likely they are to target the same cyber place again
+
+## Practical application using cybercrime journeys
+
+Beyond providing a framework for theory development, *cybercrime journeys* also enable the systematic generation of research questions and answers concerning online offender mobility. Empirical findings can then be organized around journey components, producing standardized and comparable measures across studies, which in turn supports the cumulative generation of knowledge in this topic.
+
+Traditional research on journey-to-crime has primarily focused on the distances that offenders travel to commit the crime, and on identifying the places where crime is most likely to occur [@townsley2017]. Other relevant questions concern the origins of these journeys [@rossmo2000], and the related decision-making processes, including crime location choice [@elffers2004; @bernasco2014]. These questions are relevant for the study of cybercrime journeys too. However, just as it is necessary to rethink the geometry of crime to adapt it to the virtual environment through a topology of cyberspace, it is also essential to reconsider how certain aspects related to crime commission change in the case of cybercrime. For example, part of the journey relevant for forensic investigation---the data journey---remains largely outside the offender's control; and while distances and effort continue to shape online offender decision-making, their nature and likely impact are different and arguably less pronounced in cyberspace.
+
+Without aiming to be exhaustive, we outline here some of the questions that could be addressed using the cybercrime journeys framework and that are relevant for the prevention and investigation of cybercrime.
+
+> RQ~1~ From which cyber places do offenders typically begin their journey-to-cybercrime?
+
+> RQ~2~ What routes do offenders follow to commit specific forms of cybercrime, and how do these differ from the routes used to commit other cyber offenses?
+
+> RQ~3~ What journeys do offenders make when they are not committing cybercrime but are still learning about cyberspace?
+
+> RQ~4~ What types of information do offenders transfer and receive within the cyber places they visit during their journeys?
+
+> RQ~5~ Which servers and networks host the cybercriminal tools and services that facilitate crime commission?
+
+> RQ~6~ How does communication between individuals navigating cyberspace occur during their journeys?
+
+> RQ~7~ How do offenders select their target cyber places or infrastructure nodes relative to the initiation of their journey-to-cybercrime?
+
+The journey components would serve to operationalize the key concepts of these questions, both in the case of human journeys and data journeys. Origins, routes, data types, destinations, co-travelers, and crime locations are among the aspects that, in these cases, would enable the systematic measurement and contextualization of corresponding empirical observations.
+
+# Discussion
+
+This article introduced a novel framework for analyzing online offender mobility by adapting the geometry of crime [@brantingham1981] to a topology of cyberspace. This lays the foundations for subsequent theoretical development, with the cyber place as the unit of analysis. Defining cyber place, in turn, enables the operationalization of place-related concepts in cyberspace---such as online offender convergence settings, cybercrime generators, and cybercrime attractors [for the original concepts, see @felson2003; @brantingham1995]---and the systematic analysis of cybercrime within them. For example, some studies have used the term virtual or online offender convergence setting ad hoc to describe underground forums or instant messaging services where potential offenders meet and exchange information [e.g. @garkava2024; @soudijn2012]. Similarly, social media platforms can serve as cybercrime generators for social offenses such as harassment, hate speech, and disinformation, while database management systems containing sensitive data may function as cybercrime attractors for financially motivated offenses, including data theft, phishing, and ransomware. Similarly, the framework enables the evaluation of place-based interventions, such as hot-spot policing, as well as related phenomena including crime displacement and spatial patterns of near-repeat victimization. By formally defining cyber place, our framework moves beyond ad hoc usages, enabling the systematic identification, classification, and analysis of cybercrime places within the topology of cyberspace.
+
+We then extended the concept of crime journeys [@bernasco2014] to cyberspace, distinguishing between human journeys and data journeys. This expanded framework identifies both analogous and unique components of cyber journeys, raises new research questions, and enables systematic observation of the cybercrime commission process, which may be organized into new propositions, facilitating the development of new hypotheses and theories of cybercrime offending. At the same time, analyzing cybercrime journeys offers valuable insights for both the prevention and investigation of cybercrime. For instance, distinct spatiotemporal patterns in offender journeys can support *disruption* by revealing key cyber places suitable for intervention, and *detection* by uncovering consistent modus operandi among individuals or groups.
+
+Although still in its early stages, we anticipate at least two limitations of this framework. First, it does not address the offline dimension of cybercrime. Cyber offenders are physically located somewhere and may also journey through geographical space before, during, and after committing cybercrime. We acknowledge this and refer readers to research on offline crime journeys; understanding how offline and online journeys intersect remains a topic for future research. Second, our framework adapts and extends existing criminological concepts rather than proposing an entirely new theoretical model for analyzing cybercrime journeys. While this approach leverages the strengths of environmental criminology, it also carries forward some of its potential limitations.
+
+The framework proposed here has the potential to transcend disciplinary boundaries, and is complementary to existing analytic models, such as crime scripts in criminology [@cornish1993] and kill chains and attack techniques in cyber security [@hutchins2011; @strom2020]. While these models focus on sequences of offender actions to identify intervention points, cybercrime journeys offer a more generic perspective by systematically unpacking the crime commission process not only across time but also across space. Online actions and attack techniques described in these frameworks occur within specific cyber places and infrastructures and can therefore be mapped into cybercrime journeys. Human journeys may be particularly relevant for addressing questions and generating hypotheses within criminology and the social sciences, whereas data journeys may be more applicable to digital forensics, cybersecurity, and related computer science disciplines. Note that the framework has been developed to support the analysis and investigation of any type of cybercrime and cybercriminal, but beyond analyzing illicit behavior, it could also be used to study human dynamics in cyberspace more broadly, including non-criminal activities.
+
+# References {.unnumbered}
+
+::: {#refs}
+:::
+
+# Authors’ contributions (CRediT) {.unnumbered}
+
+A*sier Moneva*: Conceptualization, Software, Writing – original draft, Visualization, Supervision, Project administration, Funding acquisition. *Stijn Ruiter*: Conceptualization, Writing – review and editing. *Wim Bernasco*: Conceptualization, Writing – Review & Editing.
+
+# Author biographies {.unnumbered}
+
+*Asier Moneva* is Researcher in cybercrime at the Netherlands Institute for the Study of Crime and Law Enforcement (NSCR), and the Centre of Expertise Cyber Security at The Hague University of Applied Sciences. His work focuses on how, when, and where cybercrime occurs, with the goal of understanding criminal behavior online and helping to reduce cybercrime.
+
+*Stijn Ruiter* is Senior Researcher at the NSCR, and Professor by special appointment at Vrije Universiteit Amsterdam. Stijn is trained as a quantitative sociologist, specialized in geographic and environmental criminology, interested in understanding why crime happens where and when it does and rigorous testing of its explanations and the policies and practices to prevent it. At NSCR, he leads the What Works in Policing research program.
+
+*Wim Bernasco* is Senior Researcher at the NSCR, and Professor by special appointment at the University of Amsterdam. His research interests include the geography of crime, offender decision making, and situational causes of crime.
